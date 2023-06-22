@@ -1,0 +1,350 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x7CCB3A7015A0E192",
+      "device": "xc7z020clg484-1",
+      "name": "design_1",
+      "synth_flow_mode": "None",
+      "tool_version": "2018.3",
+      "validated": "true"
+    },
+    "design_tree": {
+      "clk_wiz_0": "",
+      "top_0": "",
+      "ila_0": ""
+    },
+    "ports": {
+      "reset_n": {
+        "type": "rst",
+        "direction": "I",
+        "parameters": {
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "POLARITY": {
+            "value": "ACTIVE_LOW",
+            "value_src": "default"
+          }
+        }
+      },
+      "sensor1": {
+        "direction": "I"
+      },
+      "sensor2": {
+        "direction": "I"
+      },
+      "sensor3": {
+        "direction": "I"
+      },
+      "enable": {
+        "direction": "I"
+      },
+      "barrier": {
+        "direction": "O"
+      },
+      "serial_data_out": {
+        "direction": "O"
+      },
+      "sys_clock": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "design_1_clk",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
+          }
+        }
+      },
+      "valid_Epass": {
+        "direction": "I",
+        "left": "1",
+        "right": "0"
+      },
+      "led1": {
+        "direction": "O"
+      },
+      "led2": {
+        "direction": "O"
+      },
+      "led3": {
+        "direction": "O"
+      },
+      "led4": {
+        "direction": "O"
+      },
+      "led5": {
+        "direction": "O"
+      },
+      "led6": {
+        "direction": "O"
+      },
+      "clock": {
+        "type": "clk",
+        "direction": "O",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "design_1_top_0_0_clock",
+            "value_src": "default_prop"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
+          }
+        }
+      }
+    },
+    "components": {
+      "clk_wiz_0": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "xci_name": "design_1_clk_wiz_0_0",
+        "parameters": {
+          "CLKOUT1_JITTER": {
+            "value": "290.478"
+          },
+          "CLKOUT1_PHASE_ERROR": {
+            "value": "133.882"
+          },
+          "CLKOUT1_REQUESTED_OUT_FREQ": {
+            "value": "10.000"
+          },
+          "MMCM_CLKFBOUT_MULT_F": {
+            "value": "15.625"
+          },
+          "MMCM_CLKOUT0_DIVIDE_F": {
+            "value": "78.125"
+          },
+          "MMCM_DIVCLK_DIVIDE": {
+            "value": "2"
+          },
+          "RESET_PORT": {
+            "value": "resetn"
+          },
+          "RESET_TYPE": {
+            "value": "ACTIVE_LOW"
+          }
+        }
+      },
+      "top_0": {
+        "vlnv": "xilinx.com:module_ref:top:1.0",
+        "xci_name": "design_1_top_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "top",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "clk": {
+            "type": "clk",
+            "direction": "I",
+            "parameters": {
+              "CLK_DOMAIN": {
+                "value": "/clk_wiz_0_clk_out1",
+                "value_src": "ip_prop"
+              },
+              "FREQ_HZ": {
+                "value": "10000000",
+                "value_src": "ip_prop"
+              },
+              "PHASE": {
+                "value": "0.0",
+                "value_src": "ip_prop"
+              }
+            }
+          },
+          "reset_n": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "clock": {
+            "type": "clk",
+            "direction": "O"
+          },
+          "sensor1": {
+            "direction": "I"
+          },
+          "sensor2": {
+            "direction": "I"
+          },
+          "sensor3": {
+            "direction": "I"
+          },
+          "valid_Epass": {
+            "direction": "I",
+            "left": "1",
+            "right": "0"
+          },
+          "enable": {
+            "direction": "I"
+          },
+          "led1": {
+            "direction": "O"
+          },
+          "led2": {
+            "direction": "O"
+          },
+          "led3": {
+            "direction": "O"
+          },
+          "led4": {
+            "direction": "O"
+          },
+          "led5": {
+            "direction": "O"
+          },
+          "led6": {
+            "direction": "O"
+          },
+          "barrier": {
+            "direction": "O"
+          },
+          "serial_data_out": {
+            "direction": "O"
+          }
+        }
+      },
+      "ila_0": {
+        "vlnv": "xilinx.com:ip:ila:6.2",
+        "xci_name": "design_1_ila_0_0",
+        "parameters": {
+          "C_ENABLE_ILA_AXI_MON": {
+            "value": "false"
+          },
+          "C_MONITOR_TYPE": {
+            "value": "Native"
+          },
+          "C_NUM_OF_PROBES": {
+            "value": "1"
+          }
+        }
+      }
+    },
+    "nets": {
+      "reset_n_1": {
+        "ports": [
+          "reset_n",
+          "clk_wiz_0/resetn",
+          "top_0/reset_n"
+        ]
+      },
+      "sensor1_1": {
+        "ports": [
+          "sensor1",
+          "top_0/sensor1"
+        ]
+      },
+      "sensor2_1": {
+        "ports": [
+          "sensor2",
+          "top_0/sensor2"
+        ]
+      },
+      "sensor3_1": {
+        "ports": [
+          "sensor3",
+          "top_0/sensor3"
+        ]
+      },
+      "enable_1": {
+        "ports": [
+          "enable",
+          "top_0/enable"
+        ]
+      },
+      "top_0_barrier": {
+        "ports": [
+          "top_0/barrier",
+          "barrier"
+        ]
+      },
+      "top_0_serial_data_out": {
+        "ports": [
+          "top_0/serial_data_out",
+          "serial_data_out",
+          "ila_0/probe0"
+        ]
+      },
+      "clk_wiz_0_clk_out1": {
+        "ports": [
+          "clk_wiz_0/clk_out1",
+          "top_0/clk"
+        ]
+      },
+      "clk_in1_0_1": {
+        "ports": [
+          "sys_clock",
+          "clk_wiz_0/clk_in1"
+        ]
+      },
+      "valid_Epass_1": {
+        "ports": [
+          "valid_Epass",
+          "top_0/valid_Epass"
+        ]
+      },
+      "top_0_led1": {
+        "ports": [
+          "top_0/led1",
+          "led1"
+        ]
+      },
+      "top_0_led2": {
+        "ports": [
+          "top_0/led2",
+          "led2"
+        ]
+      },
+      "top_0_led3": {
+        "ports": [
+          "top_0/led3",
+          "led3"
+        ]
+      },
+      "top_0_led4": {
+        "ports": [
+          "top_0/led4",
+          "led4"
+        ]
+      },
+      "top_0_led5": {
+        "ports": [
+          "top_0/led5",
+          "led5"
+        ]
+      },
+      "top_0_led6": {
+        "ports": [
+          "top_0/led6",
+          "led6"
+        ]
+      },
+      "top_0_clock": {
+        "ports": [
+          "top_0/clock",
+          "clock",
+          "ila_0/clk"
+        ]
+      }
+    }
+  }
+}

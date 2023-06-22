@@ -1,0 +1,28 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../non_stop_ETC.srcs/sources_1/bd/design_1/ipshared/85a3" \
+"../../../../../../hdl/controller.v" \
+"../../../../../../hdl/count_car.v" \
+"../../../../../../hdl/datapath.v" \
+"../../../../../../hdl/div.v" \
+"../../../../../../hdl/non_stop_ETC.v" \
+"../../../../../../hdl/push_data.v" \
+
+sv xil_defaultlib  --include "../../../../non_stop_ETC.srcs/sources_1/bd/design_1/ipshared/85a3" \
+"../../../../../../hdl/uart_fifo.sv" \
+"../../../../../../hdl/uart_generator_clock.sv" \
+"../../../../../../hdl/uart_transmitter.sv" \
+
+verilog xil_defaultlib  --include "../../../../non_stop_ETC.srcs/sources_1/bd/design_1/ipshared/85a3" \
+"../../../../../../hdl/top.v" \
+"../../../../non_stop_ETC.ip_user_files/bd/design_1/ip/design_1_top_0_0/sim/design_1_top_0_0.v" \
+"../../../../non_stop_ETC.ip_user_files/bd/design_1/ip/design_1_clk_wiz_0_0/design_1_clk_wiz_0_0_clk_wiz.v" \
+"../../../../non_stop_ETC.ip_user_files/bd/design_1/ip/design_1_clk_wiz_0_0/design_1_clk_wiz_0_0.v" \
+"../../../../non_stop_ETC.ip_user_files/bd/design_1/sim/design_1.v" \
+"../../../../non_stop_ETC.srcs/sources_1/bd/design_1/hdl/design_1_wrapper.v" \
+"../../../../non_stop_ETC.srcs/sim_1/new/top_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

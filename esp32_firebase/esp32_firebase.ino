@@ -25,6 +25,7 @@ FirebaseJson json;
 
 volatile uint16_t speed_t;
 char speed_s[6];
+uint8_t rx_buffer[128];
 
 int x = 0;
 String pathSpeed = "data/speed";
@@ -116,11 +117,10 @@ void handleSetTime() {
 }
 
 void setup() {
-  uart_config();
   handleConnectWifi();
   handleSetTime();
   handleConnectFireBase();
-  Serial.begin(115200);
+  uart_config();
 }
 
 void loop() {

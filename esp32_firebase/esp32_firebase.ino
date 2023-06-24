@@ -2,8 +2,6 @@
 #include <NTPClient.h>
 #include <WiFiClient.h>
 #include "FirebaseESP32.h"
-#include <Arduino.h>
-#include <stdio.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/uart.h"
@@ -33,45 +31,35 @@ String pathSpeed = "data/speed";
 String pathTime = "data/time";
 String pathDate = "data/date";
 
-void uart_config(void)
-{
-    uart_config_t uart_config = {
-        .baud_rate = 9600,
-        .data_bits = UART_DATA_8_BITS,
-        .parity = UART_PARITY_DISABLE,
-        .stop_bits = UART_STOP_BITS_1,
-        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
-//        .source_clk = UART_SCLK_APB,
-
-    };
-    uart_param_config(UART_NUM_1, &uart_config);
-    uart_set_pin(UART_NUM_1, UART_TX, UART_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
-    uart_driver_install(UART_NUM_1, 256, 0, 0, NULL, 0);
-    Serial.println("UART driver installed");
+void uart_config(void) {
+  uart_config_t uart_config = {
+    .baud_rate = 9600,
+    .data_bits = UART_DATA_8_BITS,
+    .parity = UART_PARITY_DISABLE,
+    .stop_bits = UART_STOP_BITS_1,
+    .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+  };
+  uart_param_config(UART_NUM_1, &uart_config);
+  uart_set_pin(UART_NUM_1, UART_TX, UART_RX, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+  uart_driver_install(UART_NUM_1, 256, 0, 0, NULL, 0);
+  printf("UART driver installed\n");
 }
 
+int uart_task() {
+  int result = 0;
+  int rx_length = uart_read_bytes(UART_NUM_1, rx_buffer, sizeof(rx_buffer), 20 / portTICK_RATE_MS);
 
-static void uart_task(void *pvParameters)
-{
-    uint8_t rx_buffer[128];
-        int rx_length = uart_read_bytes(UART_NUM_1, rx_buffer, sizeof(rx_buffer), 20 / portTICK_RATE_MS);
-        if (rx_length > 0)
-        {
-            Serial.print(rx_length);
-            Serial.println(" bytes received");
-            Serial.print("rx_buffer[1]: ");
-            Serial.println(rx_buffer[1], HEX);
-            Serial.print("rx_buffer[0]: ");
-            Serial.println(rx_buffer[0], HEX);
-            speed_t = rx_buffer[1];
-            speed_t <<= 4;
-            speed_t |= (rx_buffer[0] >> 4);
-            Serial.print("speed: ");
-            Serial.println(speed_t);
-            memset(speed_s, 0, 6);
-            sprintf(speed_s, "%d", speed_t);
-        }
-        vTaskDelay(10 / portTICK_RATE_MS);
+  if (rx_length > 0) {
+    // In giá trị của byte đầu tiên trong mảng rx_buffer
+    // printf("Value of rx_buffer[0]: %d\n", rx_buffer[0]);
+
+    // Chuyển đổi giá trị của byte đầu tiên trong mảng rx_buffer về dạng số nguyên
+    char buffer_str[4];
+    sprintf(buffer_str, "%d", rx_buffer[0]);
+    result = atoi(buffer_str);
+  }
+
+  return result;
 }
 
 void handleConnectWifi() {
@@ -101,9 +89,8 @@ void handleConnectFireBase() {
   Serial.println();
 }
 
-void SendDataToFirebase() {
+void SendDataToFirebase( int speed) {
   timeClient.update();
-  int randomNumber = random(30, 61);
   String dateNow = timeClient.getFormattedTime();
   time_t currentTime = timeClient.getEpochTime();
   struct tm * timeInfo;
@@ -112,7 +99,7 @@ void SendDataToFirebase() {
   int currentMonth = timeInfo->tm_mon + 1;
   int currentYear = timeInfo->tm_year + 1900;
   String currentDate = String(currentYear) + "-" + String(currentMonth) + "-" + String(currentDay);
-  Firebase.pushInt(firebaseData, pathSpeed, randomNumber);
+  Firebase.pushInt(firebaseData, pathSpeed, speed);
   Firebase.pushString(firebaseData, pathTime, dateNow);
   Firebase.pushString(firebaseData, pathDate, currentDate);
 Serial.println("time: " + dateNow);
@@ -126,20 +113,21 @@ void handleSetTime() {
   while (!timeClient.update()) {
     timeClient.forceUpdate();
   }
-
-//  Serial.print("Current time: ");
-//  Serial.println(timeClient.getFormattedTime());
 }
 
-
 void setup() {
+  uart_config();
   handleConnectWifi();
   handleSetTime();
   handleConnectFireBase();
-  uart_config();
+  Serial.begin(115200);
 }
 
 void loop() {
-  SendDataToFirebase();
-    delay(10000);
+  int speed = uart_task();
+  if (speed != 0) {
+    Serial.println(speed);
+    SendDataToFirebase(speed);
+  }
+  vTaskDelay(10 / portTICK_RATE_MS);
 }
